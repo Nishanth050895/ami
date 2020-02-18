@@ -19,7 +19,7 @@ jobs:
           name: Validate AMI
           command: |
             ls -al
-            packer validate -var-file=./vars.json ami.json
+            packer build -var-file=./vars.json ami.json
 
 #  build-base:
 #    docker:
