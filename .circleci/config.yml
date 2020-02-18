@@ -1,16 +1,10 @@
 version: 2
 jobs:
-  validate:
-    docker:
-      - image: hashicorp/packer:1.1.1
-    steps:
-      - checkout
-      - run:
-          name: Validate AMI
-          command: |
-            ls -al
-            packer validate -var-file=./vars.json ami.json
   build:
+    filters:
+      branches:
+        only:
+          - master
     docker:
       - image: hashicorp/packer:1.1.1
     steps:
@@ -18,21 +12,16 @@ jobs:
       - run:
           name: Validate AMI
           command: |
-            ls -al
-            packer build -var-file=./vars.json ami.json
+            packer build \
+            -var "aws_region=${AWS_REGION}" \
+            -var "aws_access_key=${AWS_ACCESS_KEY_ID}" \
+            -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
+            ami.json
 
-workflows:
-  version: 2
-  build-and-deploy:
+
+  build-deploy-workflow:
     jobs:
-      - validate
-      - build-base:
-          requires:
-            - validate
-      - build-snowflake:
-          requires:
-            - validate
-            - build-base
-      - canary-snowflake:
-          requires:
-            - build-snowflake
+      - build:
+          filters:
+            branches:
+              only: master
