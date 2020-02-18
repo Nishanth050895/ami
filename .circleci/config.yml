@@ -13,10 +13,10 @@ jobs:
           name: Validate AMI
           command: |
             packer build \
-            -var "aws_region=${AWS_REGION}" \
+            -var "aws_region=us-east-1" \
             -var "aws_access_key=${AWS_ACCESS_KEY_ID}" \
             -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
-            -var 'source_ami=${AWS_SOURCE_AMI}' \
+            -var 'source_ami=ami-07ebfd5b3428b6f4d' \
             ami.json
 
 workflows:
