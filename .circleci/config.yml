@@ -18,7 +18,8 @@ jobs:
             -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
             ami.json
 
-
+workflows:
+  version: 2
   build-deploy-workflow:
     jobs:
       - build:
