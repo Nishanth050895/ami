@@ -10,6 +10,18 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Validate AMI
+          command: |
+            packer validate \
+            -var "aws_region=${aws_region}" \
+            -var "aws_access_key=${AWS_ACCESS_KEY_ID}" \
+            -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
+            -var "source_ami=${source_ami}" \
+            -var "ami_users=${ami_users}" \
+            -var "ssh_username=${ssh_username}" \
+            ami.json
+
+      - run:
           name: Build AMI
           command: |
             packer build \
@@ -18,6 +30,7 @@ jobs:
             -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
             -var "source_ami=${source_ami}" \
             -var "ami_users=${ami_users}" \
+            -var "ssh_username=${ssh_username}" \
             ami.json
 
 workflows:
