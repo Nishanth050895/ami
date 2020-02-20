@@ -10,14 +10,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Validate AMI
+          name: Build AMI
           command: |
             packer build \
             -var "aws_region=${aws_region}" \
             -var "aws_access_key=${AWS_ACCESS_KEY_ID}" \
             -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
-            -var 'source_ami=${source_ami}' \
-            -var 'ami_users=${ami_users}' \
+            -var "source_ami=${source_ami}" \
+            -var "ami_users=${ami_users}" \
             ami.json
 
 workflows:
